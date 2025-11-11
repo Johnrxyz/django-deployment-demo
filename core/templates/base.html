@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO DO LIST</title>
+</head>
+
+<style>
+    /*
+ * --------------------------------
+ * 1. Global & Typography Reset
+ * --------------------------------
+ */
+:root {
+    /* Define primary colors for easy switching */
+    --color-background: #FFFFFF; /* Pure White */
+    --color-text: #111111;       /* Near Black */
+    --color-line: #DDDDDD;       /* Very Light Gray for separation */
+    --color-shadow: rgba(0, 0, 0, 0.05); /* Very subtle shadow */
+    --font-primary: 'Inter', 'Roboto', sans-serif; /* Clean, modern font */
+}
+
+/* Apply colors and reset standard margins */
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-primary);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Remove default link styling */
+a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #444444; 
+}
+
+/*
+ * --------------------------------
+ * 2. Header & Navigation
+ * --------------------------------
+ */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px; /* Generous padding (whitespace) */
+    border-bottom: 1px solid var(--color-line);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700; /* Bold logo stands out */
+    letter-spacing: -0.5px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 14px;
+}
+
+.user-info {
+    font-weight: 500;
+    opacity: 0.7; /* Subtly fade the username */
+}
+
+.nav-link {
+    padding: 5px 10px;
+    border: 1px solid transparent;
+}
+
+.nav-link:hover {
+    border-color: var(--color-text); /* Subtle, high-contrast hover */
+}
+
+/*
+ * --------------------------------
+ * 3. Main Content & Centering
+ * --------------------------------
+ */
+.main-content {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: flex-start; /* Align content to the top (prevents the container from floating mid-screen) */
+    padding: 50px 20px;
+
+}
+
+.todo-container {
+    width: 100%;
+    max-width: 600px; /* **This constraint is what centers the content** */
+    padding: 40px;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-line);
+    box-shadow: 0 4px 10px var(--color-shadow); 
+    
+    /* Ensure the container itself doesn't have margin interfering with centering */
+    margin: 0; 
+}
+/*
+ * --------------------------------
+ * 4. Task Input Form (Add-Task)
+ * --------------------------------
+ */
+.add-form {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--color-text); /* Strong separation */
+}
+
+.task-input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px 0;
+    font-size: 16px;
+    font-family: var(--font-primary);
+    outline: none;
+}
+
+/* Hide placeholder text color in the monochrome design */
+.task-input::placeholder {
+    color: #AAAAAA; 
+}
+
+.add-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--color-text);
+    padding: 0 10px;
+    transition: transform 0.2s ease;
+}
+
+.add-button:hover {
+    transform: rotate(90deg); /* Modern, interactive touch */
+}
+
+/*
+ * --------------------------------
+ * 5. Task List Styling
+ * --------------------------------
+ */
+.task-list {
+    list-style: none;
+    padding: 0;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--color-line);
+}
+
+/* New: Group the title and date content */
+.task-content {
+    display: flex;
+    flex-direction: column; /* Stack title and date vertically */
+    flex-grow: 1;
+}
+
+/* Ensure the title is the primary focus */
+.task-title {
+    font-size: 16px;
+    font-weight: 500; 
+}
+
+/* New: Subtle styling for the timestamp */
+.task-timestamp {
+    font-size: 12px; /* Smallest font size */
+    font-weight: 300; /* Light weight */
+    color: #888888; /* Soft gray (breaks the monochrome slightly for subtlety) */
+    margin-top: 3px;
+}
+
+/* Completed State (Apply styling to the new content wrapper) */
+.task-item.completed .task-content {
+    opacity: 0.6; /* Dim the entire completed content group */
+}
+.task-item.completed .task-title {
+    text-decoration: line-through;
+}
+
+.controls a {
+    font-size: 18px;
+    margin-left: 15px;
+    opacity: 0.8;
+}
+
+.controls a:hover {
+    opacity: 1;
+}
+
+.complete-btn {
+    font-weight: 700;
+}
+
+.delete-btn {
+    font-weight: 400;
+}
+
+/*
+ * --------------------------------
+ * 6. Authentication Forms (Login/Register)
+ * --------------------------------
+ */
+
+.auth-container {
+    width: 100%;
+    max-width: 400px; 
+    padding: 40px;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-line);
+    box-shadow: 0 4px 10px var(--color-shadow);
+    text-align: center; 
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    margin-top: 20px;
+    text-align: left; 
+}
+
+.auth-form label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block; 
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="password"] {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid var(--color-line); 
+    font-size: 16px;
+    outline: none;
+    transition: border-bottom-color 0.3s;
+}
+
+.auth-form input[type="text"]:focus,
+.auth-form input[type="password"]:focus {
+    border-bottom: 2px solid var(--color-text); 
+}
+
+.auth-form button[type="submit"] {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: var(--color-text); 
+    color: var(--color-background); 
+    border: 1px solid var(--color-text);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.auth-form button[type="submit"]:hover {
+    background-color: var(--color-background); 
+    color: var(--color-text); 
+}
+
+.auth-form p {
+    margin: 0;
+    padding: 0;
+}
+.auth-form p label {
+    margin-bottom: 0; 
+}
+
+
+</style>
+<body>
+    <header class="app-header">
+        <div class="logo">GambaRonToDo</div>
+        <nav>
+            {% if request.user.is_authenticated %}
+                <span class="user-info">Hello, {{ request.user.username }}!</span>
+                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-link">Login</a>
+                <a href="{% url 'register' %}" class="nav-link">Register</a> {% endif %}
+        </nav>
+    </header>
+
+    <main class="main-content"> 
+            {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

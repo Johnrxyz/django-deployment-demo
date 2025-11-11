@@ -1,16 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TO DO LIST</title>
-</head>
-<body>
-    <h1>TO DO LIST</h1>
-    <form method="POST" action="/add">
-        <input type="text" name="task" placeholder="Enter a new task" required>
-        <button type="submit">Add Task</button>
-    </form>
-    <h1>TO DO LIST BY RONJERIC</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="todo-container">
+        <form method="POST" class="add-form">
+            {% csrf_token %}
+            {{ form.title }} <button type="submit" class="add-button">+</button>
+        </form>
+
+        <ul class="task-list">
+            {% for task in tasks %}
+            <li class="task-item {% if task.completed %}completed{% endif %}">
+                
+                <div class="task-content"> 
+                    <span class="task-title">{{ task.title }}</span>
+                    <span class="task-timestamp">
+                        {{ task.created_at|date:"M d, H:i" }} 
+                    </span> 
+                </div>
+                
+                <div class="controls">
+                    
+                    <a href="{% url 'complete_task' task.id %}" class="complete-btn" title="Toggle Completion">
+                        ✓
+                    </a>
+                    
+                    <form method="POST" action="{% url 'delete_task' task.id %}" class="delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button" title="Permanently Delete Task">
+                             ✗ </button>
+                    </form>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
